@@ -1,7 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
+import Reflux from "reflux";
+import Actions from "./actions.js";
+import UserStore from "./UserStore.js";
 import { FormErrors } from "./FormErrors";
 
-export default class Form extends Component {
+export default class Form extends Reflux.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +15,7 @@ export default class Form extends Component {
       passwordValid: false,
       formValid: false
     };
+    this.store = UserStore;
   }
 
   handleChangeInput = e => {
@@ -27,14 +31,19 @@ export default class Form extends Component {
     let fieldValidationErrors = this.state.formErrors;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
+    let isUser = [];
 
     switch (fieldName) {
       case "email":
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? "" : " is invalid";
+        isUser = this.state.users.filter(user => {
+          return user.email === value;
+        });
+
+        emailValid = isUser.length != 0;
+        fieldValidationErrors.email = emailValid ? "" : " do not registered";
         break;
       case "password":
-        passwordValid = value.length() > 5;
+        passwordValid = isUser[0].password === value;
         fieldValidationErrors.password = passwordValid ? "" : " is invalid";
         break;
       default:
@@ -45,7 +54,7 @@ export default class Form extends Component {
       {
         formErrors: fieldValidationErrors,
         emailValid: emailValid,
-        passwordValid: ageValid
+        passwordValid: passwordValid
       },
       this.validateForm
     );
@@ -60,6 +69,9 @@ export default class Form extends Component {
   render() {
     return (
       <form>
+        <div>
+          <FormErrors formErrors={this.state.formErrors} />
+        </div>
         <div>
           <label htmlFor="email">Email</label>
           <input

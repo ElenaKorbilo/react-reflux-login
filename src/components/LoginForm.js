@@ -1,7 +1,8 @@
 import React from "react";
 import Reflux from "reflux";
-import Actions from "../actions.js";
+import Actions from "./actions.js";
 import UserStore from "./UserStore.js";
+import { FormErrors } from "./FormErrors";
 
 class LoginForm extends Reflux.Component {
   constructor(props) {
@@ -10,10 +11,11 @@ class LoginForm extends Reflux.Component {
       email: "",
       password: "",
       confPass: "",
-      formErrors: { email: "", password: "", confPass: "" },
+      formErrors: { email: "", password: "", confPass: "", user: "" },
       emailValid: false,
       passwordValid: false,
       confPassValid: false,
+      userValid: false,
       formValid: false
     };
     this.store = UserStore;
@@ -37,20 +39,27 @@ class LoginForm extends Reflux.Component {
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
     let confPassValid = this.state.confPassValid;
-    console.log(fieldName);
+    let userValid = this.state.userValid;
 
     switch (fieldName) {
       case "email":
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
         fieldValidationErrors.email = emailValid ? "" : " is invalid";
+
+        let isUser = this.state.users.filter(user => {
+          return user.email === value;
+        });
+        userValid = userValid.length == 0;
+        fieldValidationErrors.user = userValid ? "" : " already registered";
+
         break;
       case "password":
         passwordValid = value.length >= 6;
         fieldValidationErrors.password = passwordValid ? "" : " is too short";
         break;
       case "confPass":
-        confPassValid = confPass === password ? true : false;
-        fieldValidationErrors.confPass = confPassValid ? "" : " is invalid";
+        confPassValid = value === this.state.password ? true : false;
+        fieldValidationErrors.confPass = confPassValid ? "" : " do not match";
         break;
       default:
         break;
@@ -60,6 +69,7 @@ class LoginForm extends Reflux.Component {
       {
         formErrors: fieldValidationErrors,
         emailValid: emailValid,
+        userValid: userValid,
         passwordValid: passwordValid,
         confPassValid: confPassValid
       },
@@ -72,13 +82,17 @@ class LoginForm extends Reflux.Component {
       formValid:
         this.state.emailValid &&
         this.state.passwordValid &&
-        this.state.confPassValid
+        this.state.confPassValid &&
+        this.state.userValid
     });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <div>
+          <FormErrors formErrors={this.state.formErrors} />
+        </div>
         <div>
           <label htmlFor="email">Email</label>
           <input

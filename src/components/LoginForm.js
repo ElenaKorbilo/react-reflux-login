@@ -30,8 +30,20 @@ class LoginForm extends Reflux.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     Actions.login({ email: this.state.email, password: this.state.password });
+    this.setState({
+      email: "",
+      password: "",
+      confPass: "",
+      formErrors: { email: "", password: "", confPass: "", user: "" },
+      emailValid: false,
+      passwordValid: false,
+      confPassValid: false,
+      userValid: false,
+      formValid: false
+    });
   };
 
   validateField(fieldName, value) {
@@ -49,7 +61,7 @@ class LoginForm extends Reflux.Component {
         let isUser = this.state.users.filter(user => {
           return user.email === value;
         });
-        userValid = userValid.length == 0;
+        userValid = isUser.length === 0;
         fieldValidationErrors.user = userValid ? "" : " already registered";
 
         break;

@@ -10,6 +10,7 @@ export default class Form extends Reflux.Component {
     this.state = {
       email: "",
       password: "",
+      user: [],
       formErrors: { email: "", password: "" },
       emailValid: false,
       passwordValid: false,
@@ -27,23 +28,41 @@ export default class Form extends Reflux.Component {
     });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    Actions.signUp();
+    this.state = {
+      email: "",
+      password: "",
+      user: [],
+      formErrors: { email: "", password: "" },
+      emailValid: false,
+      passwordValid: false,
+      formValid: false
+    };
+  };
+
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let emailValid = this.state.emailValid;
     let passwordValid = this.state.passwordValid;
-    let isUser = [];
+    let user = this.state.user;
 
     switch (fieldName) {
       case "email":
-        isUser = this.state.users.filter(user => {
+        user = this.state.users.filter(user => {
           return user.email === value;
         });
 
-        emailValid = isUser.length != 0;
+        console.log(this.state.users);
+
+        emailValid = user.length != 0;
         fieldValidationErrors.email = emailValid ? "" : " do not registered";
         break;
       case "password":
-        passwordValid = isUser[0].password === value;
+        //console.log(user[0].password);
+        console.log(this.state.user);
+        passwordValid = this.state.user[0].password === value;
         fieldValidationErrors.password = passwordValid ? "" : " is invalid";
         break;
       default:
@@ -52,6 +71,7 @@ export default class Form extends Reflux.Component {
 
     this.setState(
       {
+        user: user,
         formErrors: fieldValidationErrors,
         emailValid: emailValid,
         passwordValid: passwordValid
@@ -68,7 +88,7 @@ export default class Form extends Reflux.Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit.bind(this)}>
         <div>
           <FormErrors formErrors={this.state.formErrors} />
         </div>

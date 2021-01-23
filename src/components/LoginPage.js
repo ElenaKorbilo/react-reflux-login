@@ -5,6 +5,8 @@ import UserStore from "./UserStore";
 class LoginPage extends Reflux.Component {
   constructor(props) {
     super(props);
+
+    this.store = UserStore;
   }
 
   render() {

@@ -1,5 +1,4 @@
 import Reflux from "reflux";
-import { Redirect } from "react-router-dom";
 import Actions from "./actions.js";
 
 class UserStore extends Reflux.Store {
@@ -12,6 +11,11 @@ class UserStore extends Reflux.Store {
 
     this.listener1 = this.listenTo(Actions.signIn, this.onSignIn);
     this.listener2 = this.listenTo(Actions.signUp, this.onSignUp);
+    this.listener3 = this.listenTo(Actions.logout, this.onLogout);
+  }
+
+  onSignIn() {
+    this.state.isAuth = true;
   }
 
   onSignUp(user) {
@@ -19,8 +23,8 @@ class UserStore extends Reflux.Store {
     this.state.isAuth = true;
   }
 
-  onSignIn() {
-    this.state.isAuth = true;
+  onLogout() {
+    this.state.isAuth = false;
   }
 
   componentWillUnmount() {
@@ -29,4 +33,4 @@ class UserStore extends Reflux.Store {
   }
 }
 
-module.exports = UserStore;
+export default UserStore;

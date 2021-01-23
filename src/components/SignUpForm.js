@@ -33,6 +33,7 @@ class SignUpForm extends Reflux.Component {
   handleSubmit = e => {
     e.preventDefault();
     Actions.signUp({ email: this.state.email, password: this.state.password });
+    this.props.history.push("/protected");
     this.setState({
       email: "",
       password: "",

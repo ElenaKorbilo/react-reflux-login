@@ -1,12 +1,8 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  PrivateRoute
-} from "react-router-dom";
-import LoginForm from "./LoginForm";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
+import LoginPage from "./LoginPage";
 import NavMenu from "./NavMenu";
 
 export default function Router() {
@@ -16,9 +12,9 @@ export default function Router() {
         <div>
           <NavMenu />
           <Switch>
-            <Route exact path="/" component={LoginForm} />
+            <Route exact path="/" component={SignInForm} />
             <Route path="/signup" component={SignUpForm} />
-            <PrivateRoute path="/protected" component={LoginForm} />
+            <Route path="/protected" component={LoginPage} />
           </Switch>
         </div>
       </Router>

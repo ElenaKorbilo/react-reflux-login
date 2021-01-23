@@ -6,7 +6,7 @@ export default function NavMenu() {
   return (
     <>
       <Link to="/" className="links">
-        Login
+        Sign In
       </Link>
       <Link to="/signup" className="links">
         Sign Up

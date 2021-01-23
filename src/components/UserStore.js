@@ -9,16 +9,16 @@ class UserStore extends Reflux.Store {
       users: []
     };
 
-    this.listener1 = this.listenTo(Actions.login, this.onLogin);
+    this.listener1 = this.listenTo(Actions.signIn, this.onSignIn);
     this.listener2 = this.listenTo(Actions.signUp, this.onSignUp);
   }
 
-  onLogin(user) {
+  onSignUp(user) {
     this.state.users.push(user);
     console.log(this.state.users);
   }
 
-  onSignUp(user) {
+  onSignIn(user) {
     <Redirect to="/protected" />;
   }
 

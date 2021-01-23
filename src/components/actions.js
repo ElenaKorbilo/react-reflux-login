@@ -1,3 +1,3 @@
 import Reflux from "reflux";
 
-export default Reflux.createActions(["login", "signUp", "changeField"]);
+export default Reflux.createActions(["signIn", "signUp", "logout"]);

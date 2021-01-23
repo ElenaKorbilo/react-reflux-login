@@ -102,41 +102,60 @@ class SignUpForm extends Reflux.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <FormErrors formErrors={this.state.formErrors} />
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-offset-3 col-md-3">
+            <form onSubmit={this.handleSubmit} class="form-horizontal">
+              <div>
+                <FormErrors formErrors={this.state.formErrors} />
+              </div>
+              <div class="form-group">
+                <label htmlFor="email" class="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleChangeInput.bind(this)}
+                />
+              </div>
+              <div class="form-group">
+                <label htmlFor="password" class="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.handleChangeInput}
+                />
+              </div>
+              <div class="form-group">
+                <label htmlFor="confPass" class="form-label">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="confPass"
+                  value={this.state.confPass}
+                  onChange={this.handleChangeInput}
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary mt-3"
+                disabled={!this.state.formValid}
+              >
+                Sign Up
+              </button>
+            </form>
+          </div>
         </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChangeInput.bind(this)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChangeInput}
-          />
-        </div>
-        <div>
-          <label htmlFor="confPass">Confirm Password</label>
-          <input
-            type="password"
-            name="confPass"
-            value={this.state.confPass}
-            onChange={this.handleChangeInput}
-          />
-        </div>
-        <button type="submit" disabled={!this.state.formValid}>
-          Sign Up
-        </button>
-      </form>
+      </div>
     );
   }
 }

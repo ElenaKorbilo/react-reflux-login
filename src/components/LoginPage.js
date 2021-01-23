@@ -18,9 +18,11 @@ class LoginPage extends Reflux.Component {
 
   render() {
     return this.state.isAuth ? (
-      <div>
+      <div class="ms-5">
         <p>Welcome!</p>
-        <button onClick={this.onClick}>Quit</button>
+        <button onClick={this.onClick} class="btn btn-primary mt-3">
+          Quit
+        </button>
       </div>
     ) : (
       <Redirect to="/" />

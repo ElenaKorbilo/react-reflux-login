@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import Reflux from "reflux";
 import UserStore from "./UserStore";
 

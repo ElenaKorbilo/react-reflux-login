@@ -31,6 +31,7 @@ export default class SignInForm extends Reflux.Component {
   handleSubmit = e => {
     e.preventDefault();
     Actions.signIn();
+    this.props.history.push("/protected");
     this.state = {
       email: "",
       password: "",
@@ -54,14 +55,10 @@ export default class SignInForm extends Reflux.Component {
           return user.email === value;
         });
 
-        console.log(this.state.users);
-
         emailValid = user.length != 0;
         fieldValidationErrors.email = emailValid ? "" : " do not registered";
         break;
       case "password":
-        //console.log(user[0].password);
-        console.log(this.state.user);
         passwordValid = this.state.user[0].password === value;
         fieldValidationErrors.password = passwordValid ? "" : " is invalid";
         break;

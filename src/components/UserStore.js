@@ -6,7 +6,8 @@ class UserStore extends Reflux.Store {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      isAuth: false
     };
 
     this.listener1 = this.listenTo(Actions.signIn, this.onSignIn);
@@ -15,11 +16,11 @@ class UserStore extends Reflux.Store {
 
   onSignUp(user) {
     this.state.users.push(user);
-    console.log(this.state.users);
+    this.state.isAuth = true;
   }
 
-  onSignIn(user) {
-    <Redirect to="/protected" />;
+  onSignIn() {
+    this.state.isAuth = true;
   }
 
   componentWillUnmount() {
